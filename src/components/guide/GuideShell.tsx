@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import type { GuideSidebar as GuideSidebarModel } from "@/lib/content";
 import { GuideSidebar } from "@/components/guide/GuideSidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function GuideShell({
   sidebar,
@@ -34,6 +35,7 @@ export function GuideShell({
           </Link>
 
           <div className="ml-auto" />
+          <ThemeToggle />
         </div>
       </header>
 
