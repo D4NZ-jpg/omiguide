@@ -1,0 +1,11 @@
+.next/
+out/
+build/
+node_modules/
+coverage/
+
+# local tooling
+.cursor/
+
+# lockfiles
+package-lock.json
