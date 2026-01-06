@@ -33,7 +33,7 @@ export type GuideDoc = {
 export type GuideSidebarGroup = {
     section: string;
     label: string;
-    items: Array<Pick<GuideDoc, "slug" | "url" | "title" | "order">>;
+    items: Array<Pick<GuideDoc, "slug" | "url" | "title" | "order" | "id">>;
 };
 
 export type GuideSidebar = {
@@ -193,8 +193,8 @@ export function getGuideSidebar(): GuideSidebar {
             // Ordenar items: solo por ordenamiento explícito en ordering.ts
             // Posts no configurados van al final (999) y luego orden alfabético
             const sorted = items.slice().sort((x, y) => {
-                const orderX = getPostOrder(x.slug);
-                const orderY = getPostOrder(y.slug);
+                const orderX = getPostOrder(x.slug, x.id);
+                const orderY = getPostOrder(y.slug, y.id);
 
                 // Si ambos tienen orden explícito, usar ese orden
                 if (orderX !== 999 && orderY !== 999) {
@@ -217,6 +217,7 @@ export function getGuideSidebar(): GuideSidebar {
                     url: i.url,
                     title: i.title,
                     order: i.order,
+                    id: i.id,
                 })),
             };
         });

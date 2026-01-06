@@ -23,8 +23,8 @@ const ORDERING: Record<SectionID, SectionConfig> = {
     blog: {
         label: "Blog",
         items: [
-            "blog/index", // Página índice de la sección
-            "blog/primer-post",
+            "blog-index", // ID del frontmatter (también puedes usar "blog/index" como slug)
+            "blog/primer-post", // Slug o ID, ambos funcionan
             // Agrega más posts aquí en el orden deseado
         ],
     },
@@ -76,20 +76,36 @@ export function isPostInOrdering(slug: string[]): boolean {
 }
 
 // Helper para obtener el orden de un post dentro de su sección
-export function getPostOrder(slug: string[]): number {
+// Busca por slug completo o por ID del frontmatter
+export function getPostOrder(slug: string[], id?: string): number {
     const slugStr = slug.join("/");
     for (const sectionConfig of Object.values(ORDERING)) {
         // Verificar en items directos
         if (sectionConfig.items) {
-            const index = sectionConfig.items.indexOf(slugStr);
+            // Buscar por slug primero
+            let index = sectionConfig.items.indexOf(slugStr);
             if (index !== -1) return index;
+
+            // Si no se encuentra y hay ID, buscar por ID
+            if (id) {
+                index = sectionConfig.items.indexOf(id);
+                if (index !== -1) return index;
+            }
         }
         // Verificar en capítulos
         if (sectionConfig.chapters) {
             let globalIndex = 0;
             for (const chapter of sectionConfig.chapters) {
-                const index = chapter.items.indexOf(slugStr);
+                // Buscar por slug primero
+                let index = chapter.items.indexOf(slugStr);
                 if (index !== -1) return globalIndex + index;
+
+                // Si no se encuentra y hay ID, buscar por ID
+                if (id) {
+                    index = chapter.items.indexOf(id);
+                    if (index !== -1) return globalIndex + index;
+                }
+
                 globalIndex += chapter.items.length;
             }
         }
