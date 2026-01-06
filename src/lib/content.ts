@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { getSectionOrder, getPostOrder, getSectionLabel, getSectionConfig } from "./ordering";
 
 export type GuideFrontmatter = {
     title?: string;
@@ -158,13 +159,40 @@ export function getGuideSidebar(): GuideSidebar {
         bySection.set(key, arr);
     }
 
+    // Sistema de ordenamiento explícito: solo se ordena lo que está en ordering.ts
     const groups: GuideSidebarGroup[] = Array.from(bySection.entries())
-        .sort(([a], [b]) => a.localeCompare(b))
+        .sort(([a], [b]) => {
+            const orderA = getSectionOrder(a);
+            const orderB = getSectionOrder(b);
+            // Secciones no configuradas van al final (999)
+            if (orderA !== orderB) {
+                return orderA - orderB;
+            }
+            // Si ambas están al final, orden alfabético
+            return a.localeCompare(b);
+        })
         .map(([section, items]) => {
-            const label = titleFromSlugSegment(section);
-            const sorted = items
-                .slice()
-                .sort((x, y) => x.order - y.order || x.title.localeCompare(y.title));
+            // Usar label personalizado si existe, sino generar desde el nombre
+            const label = getSectionLabel(section) || titleFromSlugSegment(section);
+
+            // Ordenar items: solo por ordenamiento explícito en ordering.ts
+            // Posts no configurados van al final (999) y luego orden alfabético
+            const sorted = items.slice().sort((x, y) => {
+                const orderX = getPostOrder(x.slug);
+                const orderY = getPostOrder(y.slug);
+
+                // Si ambos tienen orden explícito, usar ese orden
+                if (orderX !== 999 && orderY !== 999) {
+                    return orderX - orderY;
+                }
+
+                // Si solo uno tiene orden explícito, ese va primero
+                if (orderX !== 999) return -1;
+                if (orderY !== 999) return 1;
+
+                // Si ninguno tiene orden explícito, orden alfabético
+                return x.title.localeCompare(y.title);
+            });
 
             return {
                 section,
