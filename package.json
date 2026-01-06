@@ -1,6 +1,11 @@
 {
     "name": "guide",
     "version": "0.1.0",
+    "description": "Plataforma para compartir contenido sobre programación competitiva",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/D4NZ-jpg/omiguide.git"
+    },
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -41,6 +46,7 @@
         "react": "19.2.1",
         "react-dom": "19.2.1",
         "rehype-autolink-headings": "^7.1.0",
+        "rehype-pretty-code": "^0.14.1",
         "rehype-slug": "^6.0.0",
         "remark-gfm": "^4.0.1",
         "tailwind-merge": "^3.4.0"
