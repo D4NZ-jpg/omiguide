@@ -25,6 +25,7 @@ const ORDERING: Record<SectionID, SectionConfig> = {
         items: [
             "blog-index", // ID del frontmatter (también puedes usar "blog/index" como slug)
             "blog/primer-post", // Slug o ID, ambos funcionan
+            "ejemplo-componentes", // Post de ejemplo de componentes MDX
             // Agrega más posts aquí en el orden deseado
         ],
     },

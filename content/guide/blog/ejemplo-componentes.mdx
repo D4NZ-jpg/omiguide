@@ -1,0 +1,228 @@
+---
+title: "Ejemplo de Componentes MDX"
+description: "Guía de referencia para usar los componentes disponibles en los posts MDX"
+id: "ejemplo-componentes"
+author: "Equipo de Desarrollo"
+prerequisites:
+    - "blog-index"
+---
+
+Este post muestra cómo usar todos los componentes MDX disponibles en la plataforma. Úsalo como referencia cuando escribas contenido.
+
+## Componente Info
+
+El componente `<Info>` se usa para mostrar información importante, tips o consejos útiles:
+
+<Info title="Tip de Optimización">
+    Cuando trabajes con arrays grandes, considera usar `std::vector` en lugar de arrays estáticos
+    para mejor manejo de memoria.
+</Info>
+
+<Info>
+    Recuerda que en programación competitiva, a veces la solución más simple es la mejor. No
+    sobre-compliques el problema.
+</Info>
+
+## Componente Warning
+
+El componente `<Warning>` se usa para alertar sobre posibles problemas o precauciones:
+
+<Warning title="Precaución con Desbordamiento">
+    Ten cuidado con el desbordamiento de enteros. En problemas grandes, considera usar `long long`
+    en lugar de `int`.
+</Warning>
+
+<Warning>
+    Este algoritmo tiene complejidad O(n²), puede ser lento para entradas grandes. Considera
+    optimizarlo.
+</Warning>
+
+## Componente Spoiler
+
+El componente `<Spoiler>` permite ocultar soluciones o código que el lector debe intentar primero:
+
+<Spoiler title="Solución del Problema">
+La solución usa programación dinámica con estado `dp[i][j]` que representa el número de formas de llegar a la posición `i` con `j` recursos restantes.
+
+```cpp
+int dp[n+1][k+1];
+memset(dp, 0, sizeof(dp));
+dp[0][k] = 1;
+for (int i = 0; i < n; i++) {
+    for (int j = 0; j <= k; j++) {
+        // Transiciones...
+        if (j >= cost[i]) {
+            dp[i+1][j-cost[i]] += dp[i][j];
+        }
+    }
+}
+```
+
+</Spoiler>
+
+<Spoiler title="Código Completo" defaultOpen>
+Aquí está el código completo de la solución:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> cost(n);
+    for (int i = 0; i < n; i++) {
+        cin >> cost[i];
+    }
+
+    int dp[n+1][k+1];
+    memset(dp, 0, sizeof(dp));
+    dp[0][k] = 1;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j <= k; j++) {
+            if (j >= cost[i]) {
+                dp[i+1][j-cost[i]] += dp[i][j];
+            }
+        }
+    }
+
+    cout << dp[n][0] << endl;
+    return 0;
+}
+```
+
+</Spoiler>
+
+## Componente Optional
+
+El componente `<Optional>` indica contenido que es opcional y puede ser saltado:
+
+<Optional title="Optimización Avanzada">
+    Esta optimización reduce la complejidad de O(n log n) a O(n) usando una técnica de dos punteros.
+    No es necesaria para resolver el problema, pero es útil conocerla.
+</Optional>
+
+<Optional>
+    Si quieres profundizar más en este tema, puedes investigar sobre estructuras de datos avanzadas
+    como segment trees o Fenwick trees.
+</Optional>
+
+## Componente Problem
+
+El componente `<Problem>` se usa para mostrar problemas de práctica con toda su metadata:
+
+<Problem
+    name="Livestock Lineup"
+    url="http://www.usaco.org/index.php?page=viewproblem2&cpid=965"
+    source="USACO Bronze"
+    difficulty="Medio"
+    starred
+    tags={["Grafos", "Permutaciones", "Búsqueda"]}
+>
+    Problema sobre encontrar el orden correcto de ganado basado en restricciones dadas.
+</Problem>
+
+<Problem
+    name="Cow Gymnastics"
+    url="http://www.usaco.org/index.php?page=viewproblem2&cpid=963"
+    source="USACO Bronze"
+    difficulty="Fácil"
+    tags={["Simulación", "Comparaciones"]}
+>
+    Determina cuántos pares de vacas son consistentes a través de todas las sesiones de gimnasia.
+</Problem>
+
+<Problem
+    name="Milk Factory"
+    url="http://www.usaco.org/index.php?page=viewproblem2&cpid=940"
+    source="USACO Bronze"
+    difficulty="Muy Fácil"
+    tags={["Grafos", "DFS"]}
+/>
+
+## Combinando Componentes
+
+Puedes combinar varios componentes en un mismo post para crear contenido rico y estructurado:
+
+<Info title="Estrategia General">
+    Para resolver este tipo de problemas, primero identifica el patrón subyacente.
+</Info>
+
+<Warning>No olvides manejar los casos límite, especialmente cuando n = 0 o n = 1.</Warning>
+
+<Problem
+    name="Ejemplo de Práctica"
+    difficulty="Medio"
+    tags={["Algoritmos", "Estructuras de Datos"]}
+>
+    Intenta resolver este problema aplicando las técnicas mencionadas.
+</Problem>
+
+<Spoiler title="Pista">
+    Piensa en cómo puedes usar una estructura de datos para mantener el estado eficientemente.
+</Spoiler>
+
+<Optional>
+    Si quieres un desafío adicional, intenta resolver el problema con restricciones más estrictas de
+    tiempo.
+</Optional>
+
+## Ejemplos de Código con Syntax Highlighting
+
+El syntax highlighting está habilitado para todos los bloques de código. Puedes especificar el lenguaje:
+
+**C++:**
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    cout << n * 2 << endl;
+    return 0;
+}
+```
+
+**Python:**
+
+```python
+n = int(input())
+print(n * 2)
+```
+
+**JavaScript:**
+
+```javascript
+const n = parseInt(prompt());
+console.log(n * 2);
+```
+
+**Java:**
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        System.out.println(n * 2);
+    }
+}
+```
+
+## Notas Finales
+
+Estos componentes están diseñados para hacer tu contenido más claro y estructurado. Úsalos cuando sea apropiado para mejorar la experiencia de lectura.
+
+Recuerda:
+
+- `<Info>` para tips y consejos
+- `<Warning>` para advertencias importantes
+- `<Spoiler>` para ocultar soluciones
+- `<Optional>` para contenido no esencial
+- `<Problem>` para problemas de práctica
+- Los bloques de código tienen syntax highlighting automático

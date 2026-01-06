@@ -33,7 +33,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug?: s
     const rendered = await renderMdx(doc.mdx);
 
     return (
-        <article className="prose prose-neutral dark:prose-invert max-w-none">
+        <article className="prose prose-neutral dark:prose-invert max-w-none prose-pre:bg-transparent prose-code:text-inherit">
             <header className="not-prose mb-6">
                 <h1 className="text-3xl font-semibold tracking-tight">{doc.title}</h1>
                 {doc.description ? (

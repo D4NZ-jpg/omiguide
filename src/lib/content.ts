@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { getSectionOrder, getPostOrder, getSectionLabel, getSectionConfig } from "./ordering";
+import { getSectionOrder, getPostOrder, getSectionLabel } from "./ordering";
 
 export type GuideFrontmatter = {
     title?: string;
