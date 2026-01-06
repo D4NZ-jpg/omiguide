@@ -6,7 +6,6 @@ import { getSectionOrder, getPostOrder, getSectionLabel } from "./ordering";
 export type GuideFrontmatter = {
     title?: string;
     description?: string;
-    order?: number;
     draft?: boolean;
     id?: string; // Identificador único del post (no depende del nombre del archivo)
     prerequisites?: string[]; // IDs de posts que deben leerse antes
@@ -21,7 +20,6 @@ export type GuideDoc = {
     section: string; // first path segment ("" for root)
     title: string;
     description?: string;
-    order: number;
     mdx: string;
     id?: string;
     prerequisites?: string[];
@@ -33,7 +31,7 @@ export type GuideDoc = {
 export type GuideSidebarGroup = {
     section: string;
     label: string;
-    items: Array<Pick<GuideDoc, "slug" | "url" | "title" | "order" | "id">>;
+    items: Array<Pick<GuideDoc, "slug" | "url" | "title" | "id">>;
 };
 
 export type GuideSidebar = {
@@ -45,14 +43,6 @@ const GUIDE_ROOT = path.join(process.cwd(), "content", "guide");
 
 function titleFromSlugSegment(seg: string) {
     return seg.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function normalizeOrder(v: unknown): number {
-    if (typeof v === "number" && Number.isFinite(v)) return v;
-    if (typeof v === "string" && v.trim() !== "" && Number.isFinite(Number(v))) {
-        return Number(v);
-    }
-    return 999;
 }
 
 function resolveMdxPathFromSlug(slug: string[]): string | null {
@@ -106,7 +96,6 @@ export function getGuideDoc(slug: string[] | undefined): GuideDoc | null {
         section,
         title,
         description: fm.description,
-        order: normalizeOrder(fm.order),
         mdx: content,
         id: fm.id,
         prerequisites: fm.prerequisites,
@@ -161,7 +150,6 @@ export function getGuideSidebar(): GuideSidebar {
         section: "",
         title: "Inicio",
         description: undefined,
-        order: 0,
         mdx: "",
     };
 
@@ -216,7 +204,6 @@ export function getGuideSidebar(): GuideSidebar {
                     slug: i.slug,
                     url: i.url,
                     title: i.title,
-                    order: i.order,
                     id: i.id,
                 })),
             };
