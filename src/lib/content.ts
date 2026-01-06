@@ -8,6 +8,11 @@ export type GuideFrontmatter = {
     description?: string;
     order?: number;
     draft?: boolean;
+    id?: string; // Identificador único del post (no depende del nombre del archivo)
+    prerequisites?: string[]; // IDs de posts que deben leerse antes
+    author?: string | string[]; // Autor o autores del post
+    contributors?: string[]; // Contribuidores al post
+    frequency?: number; // Qué tan común es el tema en competencias (1-5, donde 5 es muy común)
 };
 
 export type GuideDoc = {
@@ -18,6 +23,11 @@ export type GuideDoc = {
     description?: string;
     order: number;
     mdx: string;
+    id?: string;
+    prerequisites?: string[];
+    author?: string | string[];
+    contributors?: string[];
+    frequency?: number;
 };
 
 export type GuideSidebarGroup = {
@@ -98,6 +108,11 @@ export function getGuideDoc(slug: string[] | undefined): GuideDoc | null {
         description: fm.description,
         order: normalizeOrder(fm.order),
         mdx: content,
+        id: fm.id,
+        prerequisites: fm.prerequisites,
+        author: fm.author,
+        contributors: fm.contributors,
+        frequency: fm.frequency,
     };
 }
 

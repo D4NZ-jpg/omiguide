@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getAllGuideStaticParams, getGuideDoc } from "@/lib/content";
 import { renderMdx } from "@/lib/mdx";
+import { PostMetadata } from "@/components/guide/PostMetadata";
 
 export const dynamic = "force-static";
 
@@ -38,6 +39,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug?: s
                 {doc.description ? (
                     <p className="mt-2 text-muted-foreground">{doc.description}</p>
                 ) : null}
+                <PostMetadata doc={doc} />
             </header>
 
             {rendered.content}
